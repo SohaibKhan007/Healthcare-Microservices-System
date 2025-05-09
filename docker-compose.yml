@@ -28,5 +28,14 @@ services:
       SPRING_DATASOURCE_USERNAME: admin_user
       SPRING_DATASOURCE_PASSWORD: password
 
+  billing-service:
+    build:
+      context: ./billing-service
+      dockerfile: Dockerfile
+    image: billing-service:latest
+    container_name: billing-service
+    ports:
+      - "4001:4001" # Public port 4001 maps to container port 4001
+      - "9001:9001" # Public port 9001 maps to container port 9001
 volumes:
   postgres_data:
