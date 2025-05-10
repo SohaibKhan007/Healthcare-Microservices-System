@@ -1,14 +1,15 @@
-# Use Maven to build the app
-FROM maven:3.9.9-eclipse-temurin-21 AS builder
+# Stage 1: Build with Maven
+FROM maven:3.9.9-eclipse-temurin-21 AS build
 WORKDIR /app
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
-# Use JRE to run the app
-COPY src ./src
+COPY . .
 RUN mvn clean package -DskipTests
-FROM eclipse-temurin:21-jdk AS runner
+
+# Stage 2: Run with JRE
+FROM eclipse-temurin:21-jre
 WORKDIR /app
-COPY --from=builder ./app/target/billing-service-0.0.1-SNAPSHOT.jar ./app.jar
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 4001
 EXPOSE 9001
 ENTRYPOINT ["java", "-jar", "app.jar"]

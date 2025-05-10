@@ -36,7 +36,7 @@ public class PatientController {
 	}
 
 	@GetMapping
-	@Operation(summary = "Get Patients" )
+	@Operation(summary = "Get Patients")
 	public ResponseEntity<List<PatientResponseDTO>> getPatients() {
 		List<PatientResponseDTO> patients = patientService.getPatients();
 		return ResponseEntity.ok().body(patients);

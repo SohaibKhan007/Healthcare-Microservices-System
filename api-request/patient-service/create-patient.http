@@ -1,10 +1,12 @@
 ###create a new patient entity
+// filepath: d:\Java-projects\SpringBoot\Patient-Management-System-with-Microservices\api-request\patient-service\create-patient.http
 POST http://localhost:4000/patients
 Content-Type: application/json
 
 {
-    "name": "sohaib khan",
-    "email": "skupdated@gmail.com",
+    "name": "sohaib khan with billing account",
+    "email": "sdsdkupddtestdss@gmail.com",
     "address": "didwana",
-    "dateOfBirth": "2000-02-25"
+    "dateOfBirth": "2000-02-25",
+    "registeredDate": "2023-10-01"
 }
