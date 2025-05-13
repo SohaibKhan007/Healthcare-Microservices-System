@@ -16,6 +16,42 @@ services:
     networks:
       - microservices-network
 
+  auth-service-db:
+    image: postgres:latest
+    container_name: auth-service-db
+    environment:
+      POSTGRES_USER: admin_user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: authdb
+    ports:
+      - "5001:5432"
+    volumes:
+      - auth_postgres_data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - microservices-network
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    image: auth-service:latest
+    container_name: auth-service
+    depends_on:
+      - auth-service-db
+    ports:
+      - "4005:4005"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://auth-service-db:5432/authdb
+      SPRING_DATASOURCE_USERNAME: admin_user
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SQL_INIT_MODE: always
+      SPRING_PROFILES_ACTIVE: docker
+    networks:
+      - microservices-network
+    restart: on-failure
+
   patient-service:
     build:
       context: ./patient-service
@@ -26,7 +62,6 @@ services:
       - patient-service-db
       - billing-service
     ports:
-      - "4000:4000"
       - "9090:9090" # gRPC port
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://patient-service-db:5432/db
@@ -90,9 +125,23 @@ services:
       - microservices-network
     restart: on-failure
 
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    image: api-gateway:latest
+    container_name: api-gateway
+    ports:
+      - "4004:4004"
+    networks:
+      - microservices-network
+    restart: on-failure
+
 volumes:
   postgres_data:
     name: patient-service-postgres-data
+  auth_postgres_data:
+    name: auth-service-postgres-data
 
 networks:
   microservices-network:
