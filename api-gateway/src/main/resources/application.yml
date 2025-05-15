@@ -5,6 +5,14 @@ spring:
   cloud:
     gateway:
       routes:
+        # REST CLIENT -> http://localhost:4004/auth/login
+        #API GATEWAY -> http://auth-service:4005/auth/login
+        - id: auth-service-route
+          uri: http://auth-service:4005
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=1
 
         # REST CLIENT -> http://localhost:4004/api/patients
         # API GATEWAY -> http://patient-service:4000/api/patients
@@ -15,6 +23,7 @@ spring:
             - Path=/api/patients/**
           filters:
             - StripPrefix=1
+            - JwtValidation
 
         # REST CLIENT -> http://localhost:4004/api-docs/patients
         # API GATEWAY -> http://patient-service:4000/v3/api-docs

@@ -48,6 +48,7 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_SQL_INIT_MODE: always
       SPRING_PROFILES_ACTIVE: docker
+      JAVA_TOOL_OPTIONS: "-Xmx512m -Xms256m -Dlogging.level.root=INFO"
     networks:
       - microservices-network
     restart: on-failure

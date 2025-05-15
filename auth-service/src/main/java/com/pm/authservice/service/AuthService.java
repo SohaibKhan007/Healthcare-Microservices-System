@@ -1,6 +1,7 @@
 package com.pm.authservice.service;
 
 import com.pm.authservice.dto.LoginRequestDTO;
+import com.pm.authservice.util.JwtUtil;
 import io.jsonwebtoken.JwtException;
 import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
