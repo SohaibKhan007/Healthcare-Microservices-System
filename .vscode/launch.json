@@ -2,6 +2,12 @@
     "configurations": [
         {
             "type": "java",
+            "name": "LocalStack",
+            "request": "launch",
+            "mainClass": "com.pm.stack.LocalStack"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-PatientServiceApplication<patient-service>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

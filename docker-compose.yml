@@ -138,6 +138,24 @@ services:
       - microservices-network
     restart: on-failure
 
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    ports:
+      - "4566:4566"   # Edge port for all services
+      - "4571:4571"   # Optional: old S3 port, if needed
+    environment:
+      - SERVICES=s3,sqs,sns,lambda,dynamodb # Add/remove AWS services as needed
+      - DEFAULT_REGION=us-east-1
+      - DATA_DIR=/tmp/localstack/data
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - ./localstack-data:/tmp/localstack/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - microservices-network
+    restart: on-failure
+
 volumes:
   postgres_data:
     name: patient-service-postgres-data
