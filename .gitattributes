@@ -1,0 +1,6 @@
+*.proto linguist-language=Protobuf
+*.cmd linguist-language=Batchfile
+*.sh linguist-language=Shell
+*.css linguist-detectable=false
+*.project linguist-detectable=false
+*.properties linguist-language=INI
